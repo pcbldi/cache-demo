@@ -18,10 +18,4 @@ class AuthorController {
         println "Time Taken to Execute query : ${diff}"
         [author: author, bookTitles: bookTitles, timeTaken: diff]
     }
-
-    def updateAuthor() {
-        Author author = Author.get(1);
-        author.name = "Grails author"
-        author.save()
-    }
 }
