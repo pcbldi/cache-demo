@@ -1,0 +1,11 @@
+.classpath
+.project
+*.iml
+*.ipr
+i*.iws
+.idea/
+.settings/
+target/
+web-app/WEB-INF/tld/*
+*.class
+~            
