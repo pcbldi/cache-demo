@@ -2,33 +2,22 @@ package cache.demo
 
 class AuthorController {
 
-    def sessionFactory
+    static defaultAction = "list"
 
-    def index() {
+    //Example of Association caching
+    def list() {
         def startTime = System.nanoTime()
-        List<Book> books
         Author author
-        author = Author.get(1)
-        books = author.books as List<Book>
+        List<String> bookTitles
+        LogSql.execute {
+            author = Author.get(1)
+            bookTitles = author?.books*.title
+        }
         def endTime = System.nanoTime()
         def diff = (endTime - startTime) / 1000000000
-        render author?.name
-        render books
-        println "TIME TAKEN IS :::" + diff
+        println "Time Taken to Execute query : ${diff}"
+        [author: author, bookTitles: bookTitles, timeTaken: diff]
     }
-
-
-    def action2() {
-        def startTime = System.nanoTime()
-        List<Book> books
-        Author author
-        author = Author.get(1)
-        books = author.books
-        def endTime = System.nanoTime()
-        def diff = (startTime - endTime) / 1000000000
-        println "TIME TAKEN IS :::" + diff
-    }
-
 
     def updateAuthor() {
         Author author = Author.get(1);

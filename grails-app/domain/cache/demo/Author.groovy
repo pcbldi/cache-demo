@@ -4,6 +4,7 @@ class Author {
 
     String name
 
+    Collection<Book> books
     static hasMany = [books: Book]
 
     static constraints = {

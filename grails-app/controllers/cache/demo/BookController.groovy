@@ -2,14 +2,9 @@ package cache.demo
 
 class BookController {
 
-    def index() {
-        Book book
-        LogSql.execute {
-            book = Book.get(1)
-        }
-        render "---> ${book?.title}----${ book?.author?.name}"
-    }
+    static defaultAction = "list"
 
+    //Simple Caching example
     def list() {
         List<Book> books
         def startTime = System.nanoTime()
@@ -19,7 +14,7 @@ class BookController {
         def endTime = System.nanoTime()
         def diff = (endTime - startTime) / 1000000000
         println "Time Taken to Execute query : ${diff}"
-        [books: books, timeTaken: diff] //query caching
+        [books: books, timeTaken: diff]
     }
 
     def add() {
@@ -32,7 +27,21 @@ class BookController {
     def update() {
         Book book = Book.get(1)
         book.title = "Grails Book"
-        book.save(failOnError: true)
+        String message = book.save(failOnError: true) ? "Book updated Successfully" : "Error in updating Book"
+        render(view: 'add', model: [message: message])
+    }
+
+    //Example of Query Caching
+    def findAllGrailsBooks() {
+        List<Book> books = []
+        def startTime = System.nanoTime()
+        LogSql.execute {
+            books = Book.findAllByTitleIlike("%Grails%")
+        }
+        def endTime = System.nanoTime()
+        def diff = (endTime - startTime) / 1000000000
+        println "Time Taken to Execute query : ${diff}"
+        render([view: 'list', model: [books: books, timeTaken: diff]])
     }
 
 }
