@@ -30,7 +30,8 @@
         </g:each>
     </table>
 
-    <p>Time Taken to Execute this Query : <strong>${timeTaken}</strong></p>
+    <p>Time Taken to Execute this Query is : <strong>${timeTaken}</strong></p>
+    <p>Hello another change is made to this file</p>
 </div>
 </body>
 </html>
